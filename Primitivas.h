@@ -26,19 +26,33 @@ bool vacioL(lista *p)
 
 void secundaria(lista **p, int x) /*Insertar en lista sub-lista.*/
 {
-	lista *aux = new lista;
+	lista *aux = new lista, *t = (*p);
 	aux->valor = x;
-	aux->prox = (*p);
-	(*p) = aux;
+	aux->prox = NULL;
+	if (vacioL(*p))
+		(*p) = aux;
+	else
+	{
+		while (t->prox)
+			t = t->prox;
+		t->prox = aux;
+	}
 }
 
 void insertar(principal **p, int x) /*Inserta en lista principal.*/
 {
-	principal *aux = new principal;
+	principal *aux = new principal, *t = (*p);
 	aux->valor = x;
-	aux->sig = (*p);
+	aux->sig = NULL;
 	aux->aba = NULL;
-	(*p) = aux;
+	if (vacio(*p))
+		(*p) = aux;
+	else
+	{
+		while (t->sig)
+			t = t->sig;
+		t->sig = aux;
+	}
 }
 
 void eliminarS(lista **p) /*Elimina toda la sub-lista indicada.*/
