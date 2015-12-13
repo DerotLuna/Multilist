@@ -26,34 +26,80 @@ bool vacioL(lista *p)
 
 void secundaria(lista **p, int x) /*Insertar en lista sub-lista.*/
 {
-	lista *aux = new lista, *t = (*p);
-	aux->valor = x;
-	aux->prox = NULL;
+	bool flag = false;
 	if (vacioL(*p))
+	{
+		lista *aux = new lista;
+		aux->valor = x;
+		aux->prox = (*p);
 		(*p) = aux;
+		flag = true;
+	}
 	else
 	{
-		while (t->prox)
+		lista *t = (*p);
+		while (t)
+		{
+			if (t->valor == x)
+			{
+				flag = true;
+				break;
+			}
 			t = t->prox;
-		t->prox = aux;
+		}
+
+		if (!flag)
+		{
+			lista *aux = new lista;
+			aux->valor = x;
+			aux->prox = NULL;
+			t = (*p);
+			while (t->prox)
+				t = t->prox;
+			t->prox = aux;
+		}
+		else printf("Repetido!");
 	}
 }
 
 void insertar(principal **p, int x) /*Inserta en lista principal.*/
 {
-	principal *aux = new principal, *t = (*p);
-	aux->valor = x;
-	aux->sig = NULL;
-	aux->aba = NULL;
-	if (vacio(*p))
+	bool flag = false;
+	if (vacio(*p)) 
+	{
+		principal *aux = new principal;
+		aux->valor = x;
+		aux->sig = (*p);
+		aux->aba = NULL;
 		(*p) = aux;
+		flag = true;
+	}
 	else
 	{
-		while (t->sig)
+		principal *t = (*p);
+		while (t)
+		{
+			if (t->valor == x)
+			{
+				flag = true;
+				break;
+			}
 			t = t->sig;
-		t->sig = aux;
+		}
+
+		if (!flag)
+		{
+			principal *aux = new principal;
+			aux->valor = x;
+			aux->aba = NULL;
+			aux->sig = NULL;
+			t = (*p);
+			while (t->sig)
+				t = t->sig;
+			t->sig = aux;
+		}
+		else printf("Repetido!");
 	}
-}
 
 void eliminarS(lista **p) /*Elimina toda la sub-lista indicada.*/
 {
