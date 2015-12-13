@@ -24,7 +24,33 @@ bool vacioL(lista *p)
 	return (!(p));
 }
 
-void secundaria(lista **p, int x) /*Insertar en lista sub-lista.*/
+/* para pruebas
+
+void mostrarP(principal *p)                            //Muestra la lista principal.
+{
+	principal *aux = p;
+	while (aux)
+	{
+		printf(" %i ->", aux->valor);
+		aux = aux->sig;
+	}
+	printf(" NULL");
+
+}
+
+void mostrar(lista *p)                    //Muestra toda una sub-lista.
+{
+	lista *aux = p;
+	while (aux)
+	{
+		printf(" %i ->", aux->valor);
+		aux = aux->prox;
+	}
+	printf(" NULL");
+}
+*/
+
+void secundaria(lista **p, int x)                //Insertar en lista sub-lista.
 {
 	bool flag = false;
 	if (vacioL(*p))
@@ -62,7 +88,7 @@ void secundaria(lista **p, int x) /*Insertar en lista sub-lista.*/
 	}
 }
 
-void insertar(principal **p, int x) /*Inserta en lista principal.*/
+void insertar(principal **p, int x)                           //Inserta en lista principal.
 {
 	bool flag = false;
 	if (vacio(*p)) 
@@ -100,8 +126,9 @@ void insertar(principal **p, int x) /*Inserta en lista principal.*/
 		}
 		else printf("Repetido!");
 	}
+}
 
-void eliminarS(lista **p) /*Elimina toda la sub-lista indicada.*/
+void eliminarS(lista **p)      //Elimina toda la sub-lista indicada.
 {
 	if (*p)
 	{
@@ -114,16 +141,14 @@ void eliminarS(lista **p) /*Elimina toda la sub-lista indicada.*/
 	}
 }
 
-// Aqui se presenta el problema!!!!! (solo la funcion cambiar)
 void cambiar(principal **p, lista **q, int x) // parametros: lista principal completa, sub-lita a enlazar, numero X que se va a eliminar de la principal 
 {
 	int n;
 	printf("\n Numero a buscar para realizar el cambio :");
-	scanf("%i \n", &n);
+	scanf("%i", &n);
 	principal *aux = (*p); 
-	while ((aux) && (aux->sig))
+	while (aux)
 	{
-		aux = aux->sig;
 		if (aux->valor == n && n != x) // se busca la caja principal a enlazar con sublista de X, mientras sea distinto de X
 		{
 			lista *t = aux->aba; // se asigna un auxiliar hacia la sublista que ya tiene la caja principal que se le desea enlazar la otra sublista
@@ -132,6 +157,7 @@ void cambiar(principal **p, lista **q, int x) // parametros: lista principal com
 			t->prox = (*q); //enlaza la ultima caja de la sublista, con el puntero de la sublita de la caja a eliminar
 			break;
 		}
+		aux = aux->sig;
 	}
 }
 
@@ -156,3 +182,48 @@ void buscar(principal **p, int x, bool flag) // busca el la caja principal a eli
 		}
 	}
 }
+
+
+/* Fue reducido el codigo
+
+void eliminar(principal **p, int x)                       Eliminar un (x) de la lista principal (con sub-lista). Optimizar
+{
+	int z;
+	principal *aux = (*p);
+	if (!(vacio(*p)))
+	{
+		while ((aux) && (aux->sig))
+		{
+			if (aux->sig->valor == x) {
+				principal *t = aux;
+				aux = aux->sig->sig;
+				eliminarS(&(t)->aba);
+				delete t;
+				break;
+			}
+			aux = aux->sig;
+		}
+	}
+}
+
+
+
+void eliminarYcambiar(principal **p, int x)         Elimina el principal y cambia su sublista a otro principal
+{
+	int z;
+	principal *aux = (*p);
+	if (!(vacio(*p)))
+	{
+		while ((aux) && (aux->sig))
+		{
+			if (aux->sig->valor == x) {
+				principal *t = aux;
+				aux = aux->sig->sig;
+				cambiar(p, &(t)->aba);
+				delete t;
+				break;
+			}
+			aux = aux->sig;
+		}
+	}
+} */
